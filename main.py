@@ -22,8 +22,6 @@ async def matches(date: str = Query(None, description="Date in the format yyyy-m
     """
     if not date:
         date = datetime.datetime.now().isoformat()
-        # raise HTTPException(status_code=400, detail="Please provide a date in the format yyyy-mm-dd")
-
     try:
         match_data = get_match_details(date)
         return match_data
@@ -32,8 +30,22 @@ async def matches(date: str = Query(None, description="Date in the format yyyy-m
 
 
 @app.get('/live')
-async  def get_live():
-    # data = get_live_score()
-    data = await live_score()
-    return data
+async  def get_live(date: str = Query(None, description="Date in the format yyyymmdd")):
+    """
+    Fetches live for a given date.
+    """
+    if not date:
+        now = datetime.datetime.now()
+        year = now.year
+        month = now.month
+        day = now.day
+        date = f"{year}{str(month).zfill(2)}{str(day).zfill(2)}"
+
+    try:
+        data = live_score(date)
+        return data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # To run the app, use: `uvicorn filename:app --reload`

@@ -7,22 +7,15 @@ import requests
 from models.live_score_match import LivescoreLeagueGroup, LivescoreMatch, LivescoreTeam
 
 
-async def live_score():
-    now = datetime.datetime.now()
-    year = now.year
-    month = now.month
-    date = now.day
+def live_score(date: str):
 
-    url = f"https://prod-public-api.livescore.com/v1/api/app/date/soccer/{year}{str(month).zfill(2)}{str(date).zfill(2)}/6.30?MD=3&counryCode=MM"
+    url = f"https://prod-public-api.livescore.com/v1/api/app/date/soccer/{date}/6.30?MD=3&counryCode=MM"
 
     page = requests.get(url)
 
     data = page.json()
 
     stages = data['Stages']
-
-
-
 
     leagues: list[LivescoreLeagueGroup] = []
 
@@ -50,6 +43,8 @@ async def live_score():
             t2_img = None
             tr1 = None
             tr2 = None
+            trp1 = None
+            trp2 = None
             if "NewsTag" in event['T1'][0]:
                 t1_news_tag = event['T1'][0]['NewsTag']
             if "Img" in event['T1'][0]:
@@ -62,6 +57,10 @@ async def live_score():
                 tr1 = event['Tr1']
             if "Tr2" in event:
                 tr2 = event['Tr2']
+            if "Trp1" in event:
+                trp1 = event['Trp1']
+            if "Trp2" in event:
+                trp2 = event['Trp2']
 
 
             matches.append(
@@ -69,7 +68,9 @@ async def live_score():
                     home_team=LivescoreTeam(name=event['T1'][0]['Nm'], img=t1_img, abr=event['T1'][0]['Abr'], news_tag=t1_news_tag),
                     away_team=LivescoreTeam(name=event['T2'][0]['Nm'], img=t2_img, abr=event['T2'][0]['Abr'], news_tag=t2_news_tag),
                     home_score=tr1,
+                    home_pen_score=trp1,
                     away_score=tr2,
+                    away_pen_score=trp2,
                     status=event['Eps']
                 )
             )
