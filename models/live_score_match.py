@@ -1,25 +1,27 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 class LivescoreTeam(BaseModel):
-    name: str
-    img: str | None
-    abr: str
-    news_tag: str | None
+    name: Optional[str] = None
+    img: Optional[str] = None
+    abr: Optional[str] = None
+    news_tag: Optional[str] = None
 
 
 class LivescoreMatch(BaseModel):
     home_team: LivescoreTeam
     away_team: LivescoreTeam
-    home_score: int | None
-    away_score: int | None
-    status: str
+    home_score: Optional[int] = None
+    away_score: Optional[int] = None
+    status:  Optional[str] = None
 
 class LivescoreLeagueGroup(BaseModel):
-    league_name: str | None
-    group_name: str
-    badge_url: str | None
-    abr: str | None
-    matches: list[LivescoreMatch] | None
+    league_name: Optional[str] = None
+    group_name: Optional[str] = None
+    badge_url: Optional[str] = None
+    abr: Optional[str] = None
+    matches: Optional[list[LivescoreMatch]] | None
 
 
 
