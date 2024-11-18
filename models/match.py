@@ -1,11 +1,15 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 class Match(BaseModel):
-    home: str
-    away: str
-    score: str
-    home_score: int
-    away_score: int
-    championship: str
-    match: str
-    minutes: str | None
+    home: Optional[str] = ''
+    away: Optional[str] = ''
+    score: Optional[str] = None
+    home_score: Optional[int] = None
+    away_score: Optional[int]  = None
+    championship: Optional[str] = ''
+    match: Optional[str] = ''
+    minutes: Optional[str] = None
+    match_time: Optional[str] = None
+
