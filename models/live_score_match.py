@@ -13,7 +13,9 @@ class LivescoreMatch(BaseModel):
     home_team: LivescoreTeam
     away_team: LivescoreTeam
     home_score: Optional[int] = None
+    home_pen_score: Optional[int] = None
     away_score: Optional[int] = None
+    away_pen_score: Optional[int] = None
     status:  Optional[str] = None
 
 class LivescoreLeagueGroup(BaseModel):

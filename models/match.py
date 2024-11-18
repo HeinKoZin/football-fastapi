@@ -7,7 +7,9 @@ class Match(BaseModel):
     away: Optional[str] = ''
     score: Optional[str] = None
     home_score: Optional[int] = None
+    home_pen_score: Optional[int] = None
     away_score: Optional[int]  = None
+    away_pen_score: Optional[int]  = None
     championship: Optional[str] = ''
     match: Optional[str] = ''
     minutes: Optional[str] = None
